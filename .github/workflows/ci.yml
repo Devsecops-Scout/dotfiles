@@ -1,0 +1,44 @@
+# .github/workflows/ci.yml
+name: CI Pipeline
+
+# Trigger the workflow on push or pull request to specific branches
+on:
+  push:
+    branches:
+      - main
+      - develop
+  pull_request:
+    branches:
+      - main
+      - develop
+
+jobs:
+  # Define the build job  
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout the repository code  
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Set up Node.js or Python (adjust according to your stack)
+      - name: Set up Node.js (use your version)
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+
+      # Install dependencies
+      - name: Install dependencies
+        run: npm install
+
+      # Run tests (e.g., unit tests)  
+      - name: Run tests
+        run: npm test
+
+      - name: Lint code
+        run: npm run lint
+
+      # Build the project  
+      - name: Build project
+        run: npm run build
